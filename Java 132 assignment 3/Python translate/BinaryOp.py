@@ -34,27 +34,21 @@ class BinaryOp(Calculator):
 
 	def value(self, input = None):
 		operator = self.getOp()
-		if input == None:
-			try:
-				choices = { 
-							Op.Plus : (self.getLeft().value() + self.getRight().value())
-							Op.Minus :(self.getLeft().value() - self.getRight().value())
-							Op.Mult : (self.getLeft().value() * self.getRight().value())
-							Op.Div : (self.getLeft().value() / self.getRight().value())
+		try:
+			choices = { 
+							Op.Plus : (self.getLeft().value(input) + self.getRight().value(input)),
+							Op.Minus :(self.getLeft().value(input) - self.getRight().value(input)),
+							Op.Mult : (self.getLeft().value(input) * self.getRight().value(input)),
+							Op.Div : (self.getLeft().value(input) / self.getRight().value(input))
 						  }
-				return choices.get(operator, "No operator? How did you do it ?")
-			except Exception as e:
-				print("There was an unassigned variable")
-		else:
-				choices = { 
-								Op.Plus : (self.getLeft().value(input) + self.getRight().value(input))
-								Op.Minus :(self.getLeft().value(input) - self.getRight().value(input))
-								Op.Mult : (self.getLeft().value(input) * self.getRight().value(input))
-								Op.Div : (self.getLeft().value(input) / self.getRight().value(input))
-							  }
-					return choices.get(operator, "No operator? How did you do it ?")
+			return choices.get(operator, "No operator? How did you do it ?")
+		except Exception as e:
+			print(e)
+			print('no values found')
+
 	
 	def __eq__(self, other):
+		
 		
 		
 						  
