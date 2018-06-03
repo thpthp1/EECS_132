@@ -48,6 +48,35 @@ class BinaryOp(Calculator):
 
 	
 	def __eq__(self, other):
+		if isinstance(other, BinaryOp):
+			op = other.getOp()
+			if op == self.getOp():
+				if op == Op.Plus or op == Op.Minus:
+					if self.getRight() == other.getLeft():
+						return self.getLeft() == other.getRight()
+					elif self.getRight() == other.getRight():
+						return self.getLeft() == other.getLeft()
+				
+				elif op == Op.Minus or op == Op.Div:
+					return self.getRight() == other.getRight() and self.getLeft() == other.getLeft()
+		
+		return False
+		
+	def derive(self):
+		op = self.getOp()
+		leftD = self.getLeft().derive()
+		rightD = self.getRight().derive()
+		left = self.getLeft()
+		right = self.getRight()
+		
+		if op == Op.Plus or op == Op.Minus:
+			return BinaryOp(op,leftD,rightD)
+		if op == Op.Mult:
+			return BinaryOp(Op.Plus, BinaryOp(op,leftD,right), BinaryOp(op, left, rightD))
+		if op == Op.Div:
+			top = BinaryOp(Op.Minus, BinaryOp(Op.Mult,leftD, right), BinaryOp(Op.Mult,left,rightD))
+			bottom = Poly(right, 2)
+			return BinaryOp(op,top,bottom)
 		
 		
 		
