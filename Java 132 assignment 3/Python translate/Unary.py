@@ -7,8 +7,3 @@ class Unary(Calculator):
 	
 	def getOperand(self):
 		return self.__operand
-		
-	def __eq__(self,other):
-		if isinstance(other,Unary):
-			return self.getOperand() == other.getOperand()
-		return False
